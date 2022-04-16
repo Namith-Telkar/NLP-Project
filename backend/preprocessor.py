@@ -1,6 +1,4 @@
-from pyexpat.errors import messages
 import re
-from time import timezone
 
 def parse_date_string(date_string :str) -> str:
     """
@@ -9,7 +7,7 @@ def parse_date_string(date_string :str) -> str:
     parsed_date_string = re.sub(r'(\d+)/(\d+)/(\d+), (\d+):(\d+) (AM|PM)', r'20\3-\1-\2', date_string)
     return parsed_date_string
 
-filename = "WhatsApp Chat with Prof. Pooja NLP Pes.txt"
+filename = "test.txt"
 
 count = 0
 message_lines = []
@@ -62,7 +60,7 @@ def get_gpt_text(name: str, messages: list, question: str, personality_descripti
     })
     return messages, text
 
-
+print(message_lines)
 (msgs, txt) = get_gpt_text(names[0], message_lines, "When is the next class?", "You are a teacher. You currently teach at PES University.")
 print(txt)
 
