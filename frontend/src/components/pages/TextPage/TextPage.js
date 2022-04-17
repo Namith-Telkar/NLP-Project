@@ -58,19 +58,21 @@ function TextPage() {
     location.state?.messages ?? []
   );
   const [names, setNames] = useState(location.state?.names ?? []);
+  const [selectedName, setSelectedName] = useState(location.state?.names[0]);
   const [dates, setDates] = useState(location.state?.dates ?? []);
   const [personalityText, setPersonalityText] = useState(
     location.state?.personalityDescription ?? []
   );
 
   function sendMessage() {
+    console.log(names);
     setAllMessages((prev) => [
       ...prev,
       { date: dates[0], name: names[1], message: newMessage },
     ]);
     setLoadingReply(true);
     let data = {
-      names: names,
+      names: selectedName == names[0] ? names : names.reverse(),
       messages: allMessages,
       question: newMessage,
       personalityDescription: personalityText,
@@ -101,7 +103,7 @@ function TextPage() {
   }
 
   function getMessageBox(message, idx) {
-    if (message.name === names[0]) {
+    if (message.name === selectedName) {
       return (
         <LeftChatBox key={idx}>
           <LeftChatTextBox>{message.message}</LeftChatTextBox>
@@ -116,9 +118,31 @@ function TextPage() {
     }
   }
 
+  function handleOnNameSelect(e) {
+    setSelectedName(e.target.value);
+  }
+
   return (
     <TextPageContainer>
-      <Title>{names[0]}</Title>
+      <input
+        type="radio"
+        id="name1"
+        name="fav_language"
+        value={names[0]}
+        checked={selectedName === names[0]}
+        onChange={handleOnNameSelect}
+      />
+      <label for="name1">{names[0]}</label>
+      <input
+        type="radio"
+        id="name2"
+        name="fav_language"
+        value={names[1]}
+        checked={selectedName === names[1]}
+        onChange={handleOnNameSelect}
+      />
+      <label for="name2">{names[1]}</label>
+      <Title>{selectedName}</Title>
       <PersonalityText>{personalityText}</PersonalityText>
       <ChatContainer>
         {allMessages.map((message, idx) => getMessageBox(message, idx))}{" "}

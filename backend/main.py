@@ -99,7 +99,7 @@ def chat():
     question = data["question"]
     personality_description = data["personalityDescription"]
     (msgs, txt) = get_gpt_text(names, message_lines, question, personality_description)
-    # print(txt)
+    print(txt)
 
     
     # openai.api_key = 
