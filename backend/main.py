@@ -5,10 +5,11 @@ import re
 import openai
 import pickle
 import pandas as pd
+from dotenv import dotenv_values
 
+config = dotenv_values(".env")
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-
 
 MBTI_TYPE_DETAILS = {}
 df = pd.read_csv("MBTI_details.csv")
@@ -129,35 +130,33 @@ def chat():
     print(txt)
 
     
-    # openai.api_key = 
-    # os.getenv("OPENAI_API_KEY")
-    # ""
+    openai.api_key = config["GPT3_TOKEN"]
 
-    # response = openai.Completion.create(
-    #   engine="text-davinci-002",
-    #   prompt=txt,
-    #   temperature=0.5,
-    #   max_tokens=81,
-    #   top_p=1,
-    #   frequency_penalty=0,
-    #   presence_penalty=0,
-    #   stop=["Me:"]
-    # )
+    response = openai.Completion.create(
+      engine="text-davinci-002",
+      prompt=txt,
+      temperature=0.5,
+      max_tokens=80,
+      top_p=1,
+      frequency_penalty=0,
+      presence_penalty=0,
+      stop=["Me:"]
+    )
 
     
-    response = {
-        "choices": [
-            {
-            "finish_reason": "stop",
-            "index": 0,
-            "text": "\n\nThe next class is on Monday at 10:30 am."
-            }
-        ],
-        "created": 1649936120,
-        "id": "cmpl-4ws2qoPnDcL5pgDPwwszR3NWP4yZ2",
-        "model": "text-davinci:002",
-        "object": "text_completion"
-    }
+    # response = {
+    #     "choices": [
+    #         {
+    #         "finish_reason": "stop",
+    #         "index": 0,
+    #         "text": "\n\nThe next class is on Monday at 10:30 am."
+    #         }
+    #     ],
+    #     "created": 1649936120,
+    #     "id": "cmpl-4ws2qoPnDcL5pgDPwwszR3NWP4yZ2",
+    #     "model": "text-davinci:002",
+    #     "object": "text_completion"
+    # }
     message_lines.append({"date": message_lines[-1]["date"], "name": names[0], "message": response["choices"][0]["text"].replace("\n", "")})
     return jsonify({"messages": message_lines})
 

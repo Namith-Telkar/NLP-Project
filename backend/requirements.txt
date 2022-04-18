@@ -1,0 +1,6 @@
+Flask==1.1.4
+Flask_Cors==3.0.10
+openai==0.18.0
+pandas==1.4.2
+pandas_stubs==1.2.0.58
+python-dotenv==0.20.0

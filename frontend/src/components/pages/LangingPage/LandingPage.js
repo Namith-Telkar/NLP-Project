@@ -1,5 +1,10 @@
 import React, { useContext, useState } from "react";
-import { LandingPageContainer, Title } from "./LandingPage.style";
+import {
+  LandingPageContainer,
+  Title,
+  InputFileContainer,
+  InputButton,
+} from "./LandingPage.style";
 import { ThemeContext } from "../../../theme/ThemeContext";
 import ThemeToggleButton from "../../custom/ThemeToggleButton";
 
@@ -43,10 +48,10 @@ function LandingPage() {
       {loading ? (
         <TypingIndicator />
       ) : (
-        <div>
+        <InputFileContainer>
           <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-          <button onClick={extractChat}>Extract chat</button>
-        </div>
+          <InputButton onClick={extractChat}>Extract chat</InputButton>
+        </InputFileContainer>
       )}
     </LandingPageContainer>
   );

@@ -8,6 +8,9 @@ import {
   LeftChatTextBox,
   RightChatBox,
   RightChatTextBox,
+  SendChatButton,
+  SendChatConatiner,
+  SendChatInput,
 } from "./TextPage.style";
 import { ThemeContext } from "../../../theme/ThemeContext";
 import ThemeToggleButton from "../../custom/ThemeToggleButton";
@@ -148,15 +151,21 @@ function TextPage() {
         {selectedName == names[0] ? personalityText[0] : personalityText[1]}
       </PersonalityText>
       <ChatContainer>
-        {allMessages.map((message, idx) => getMessageBox(message, idx))}{" "}
+        {allMessages.map((message, idx) => getMessageBox(message, idx))}
         {loadingReply && (
           <LeftChatBox>
             <TypingIndicator />
           </LeftChatBox>
         )}
+        <SendChatConatiner>
+          <SendChatInput
+            type="text"
+            value={newMessage}
+            onChange={handleMessageInput}
+          />
+          <SendChatButton onClick={sendMessage}>Send</SendChatButton>
+        </SendChatConatiner>
       </ChatContainer>
-      <input type="text" value={newMessage} onChange={handleMessageInput} />
-      <button onClick={sendMessage}>Send</button>
       {/* <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} /> */}
     </TextPageContainer>
   );
