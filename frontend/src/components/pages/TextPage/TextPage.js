@@ -75,7 +75,8 @@ function TextPage() {
       names: selectedName == names[0] ? names : names.reverse(),
       messages: allMessages,
       question: newMessage,
-      personalityDescription: personalityText,
+      personalityDescription:
+        selectedName == names[0] ? personalityText[0] : personalityText[1],
     };
     let url = "http://localhost:5000/api/chat";
     const config = {
@@ -143,7 +144,9 @@ function TextPage() {
       />
       <label for="name2">{names[1]}</label>
       <Title>{selectedName}</Title>
-      <PersonalityText>{personalityText}</PersonalityText>
+      <PersonalityText>
+        {selectedName == names[0] ? personalityText[0] : personalityText[1]}
+      </PersonalityText>
       <ChatContainer>
         {allMessages.map((message, idx) => getMessageBox(message, idx))}{" "}
         {loadingReply && (

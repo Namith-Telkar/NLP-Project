@@ -3,9 +3,21 @@ from flask_cors import CORS
 
 import re
 import openai
+import pickle
+import pandas as pd
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+
+MBTI_TYPE_DETAILS = {}
+df = pd.read_csv("MBTI_details.csv")
+for index, row in df.iterrows():
+    MBTI_TYPE_DETAILS[row["type"]] = {"details": row["traits"]}
+
+print(MBTI_TYPE_DETAILS)
+
+text_clf = pickle.load(open('mbti_svm_v2.sav', 'rb'))
 
 def parse_date_string(date_string :str) -> str:
     """
@@ -32,6 +44,11 @@ def get_gpt_text(names: str, messages: list, question: str, personality_descript
         "message": question,
     })
     return messages, text
+
+def getPersonalityDescription(text):
+    prediction = text_clf.predict([text])
+    print(prediction[0])
+    return MBTI_TYPE_DETAILS[prediction[0]]["details"]
 
 ALLOWED_EXTENSIONS = {'txt'}
 def allowed_file(filename):
@@ -87,7 +104,17 @@ def parse_chat():
 
     names = list(names)
     dates = list(dates)
-    personality_description = "You are a teacher. You currently teach at PES University."
+
+
+    personality_description = []
+    for name in names:
+        name_personaliy_text = ""
+        for message in message_lines:
+            if message["name"] == name:
+                name_personaliy_text += message["message"] + " "
+        current_personality_text = getPersonalityDescription(name_personaliy_text)
+        print(name)
+        personality_description.append("You are a " + current_personality_text + " person.")
 
     return jsonify({"names": names, "dates": dates, "messages": message_lines, "personalityDescription": personality_description})
 
