@@ -3,6 +3,10 @@
 ## Paper link on overleaf
 [Text Style Replication using GPT-3 based on Personality Identification](https://www.overleaf.com/read/sqrtysxpqjxx)
 
+## Additional info
+* Dataset used in the personality model can be found [here](https://www.kaggle.com/code/mercurio117/mbti-500/data).
+* Code used to build the personality model is located in the ```backend``` folder with the name ```Nlp_Project.ipynb```.
+
 ## Setup
 
 1. Clone the reprository
